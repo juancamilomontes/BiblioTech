@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection.Metadata;
+using System.Threading.Tasks.Dataflow;
 
 class Program
 {
@@ -8,31 +9,32 @@ class Program
         ShowMainMenu();
     }
 
+
+    // Función para mostrar el menú principal
     static void ShowMainMenu()
     {
         Boolean next = true;
         while (next)
         {
             
+            Console.Clear();
 
-            Console.WriteLine("BiblioTech");
+            Console.WriteLine("-- BiblioTech --");
             Console.WriteLine("1.Libros");
             Console.WriteLine("2.Usuarios");
             Console.WriteLine("3.Prestamos");
             Console.WriteLine("4.Búsquedas y Reportes");
             Console.WriteLine("5.Guardar/Cargar Datos");
             Console.WriteLine("6.Salir");
-            Console.Write("Seleccione una opción: ");
 
+            Console.Write("Seleccione una opción: ");
             string option = Console.ReadLine();
 
-            Console.Clear();
 
             switch (option)
             {
                 case "1":
-                    Console.WriteLine("Funcion de Libros");
-                    Console.ReadKey();
+                    ShowBooksMenu();
                     break;
                 case "2":
                     Console.WriteLine("Funcion de Usuarios");
@@ -61,4 +63,189 @@ class Program
             }
         }
     }
+
+    // Función para mostrar el menú de libros
+    static void ShowBooksMenu()
+    {   Boolean stayinbooksMenu = true;
+         while (stayinbooksMenu){
+
+        Console.Clear();
+             
+        Console.WriteLine("-- Función de Libros --");
+        Console.WriteLine("1.Agregar Libro");
+        Console.WriteLine("2.Listar Libro");
+        Console.WriteLine("3.Ver detalles de un Libro");
+        Console.WriteLine("4.Actualizar Libro");
+        Console.WriteLine("5.Eliminar Libro");
+        Console.WriteLine("6.Regresar al menú principal");
+
+        Console.Write("Seleccione una opción: ");
+        string option = Console.ReadLine();
+
+
+        switch (option)
+        {
+            case "1":
+                Console.Clear();
+                Console.WriteLine("--- Registrar Nuevo Libro ---");
+                Console.Write("Título: ");
+                string t = Console.ReadLine();
+                Console.Write("Autor: ");
+                string a = Console.ReadLine();
+                Console.WriteLine($"\nEl libro '{t}' de {a} ha sido guardado en el sistema.");
+                Console.WriteLine("Presione una tecla para volver...");
+                Console.ReadKey();
+                break;
+            case "2":
+                showlistenbooks();
+                break;
+            case "3":
+                Console.WriteLine("-- Función de Ver detalles de un Libro --");
+                Console.WriteLine("IDs disponibles: 101, 202, 303, 404, 505");
+                Console.WriteLine("Ingrese el ID del libro para ver detalles:");
+                int ID = int.Parse(Console.ReadLine());
+                if (ID == 101)
+                {
+                    Console.WriteLine("Detalles del libro 101: 'Cien Años de Soledad' de Gabriel García Márquez (Disponible)");
+                }
+                else if (ID == 202)
+                {
+                    Console.WriteLine("Detalles del libro 202: '1984' de George Orwell (Prestado)");
+                }
+                else if (ID == 303)
+                {
+                    Console.WriteLine("Detalles del libro 303: 'To Kill a Mockingbird' de Harper Lee (Disponible)");
+                }
+                else if (ID == 404)
+                {
+                    Console.WriteLine("Detalles del libro 404: 'The Great Gatsby' de F. Scott Fitzgerald (Disponible)");
+                }
+                else if (ID == 505)
+                {
+                    Console.WriteLine("Detalles del libro 505: 'Harry Potter' de J.K. Rowling (Disponible)");
+                }
+                else
+                {
+                    Console.WriteLine("ID no encontrado. Presione una tecla para volver...");
+                }
+                Console.ReadKey();
+                break;
+            case "4":
+                ShowUpdateBookMenu();
+                break;
+            case "5":
+                Console.WriteLine("-- Función de Eliminar Libro --");
+                Console.WriteLine("Validar no permitir si está prestado");
+                Console.ReadKey();
+                break;
+            case "6":
+                stayinbooksMenu = false;
+                break;
+            default:
+                Console.WriteLine("Opción no válida. Presione Enter para intentar de nuevo.");
+                Console.ReadLine();
+                break;
+        }
+    
+        }
+
+    }
+
+        // Función para mostrar el menú de listar libros
+    static void showlistenbooks()
+    {   Boolean stayinlistbooksMenu = true;
+         while (stayinlistbooksMenu){
+
+        Console.Clear();
+
+        Console.WriteLine("-- Función de Listar Libro --");
+        Console.WriteLine("1.Listar todos los libros");
+        Console.WriteLine("2.Listar Disponibles");
+        Console.WriteLine("3.Listar Prestados");
+        Console.WriteLine("4.Regresar al menú de Libros");
+
+
+        Console.Write("Seleccione una opción: ");
+        string option = Console.ReadLine();
+
+
+        switch (option)
+        {   case "1":
+                Console.WriteLine("-- Listar todos los libros --");
+                Console.WriteLine("Libro 101: 'Cien Años de Soledad' de Gabriel García Márquez (Disponible)");
+                Console.WriteLine("Libro 202: '1984' de George Orwell (Prestado)");
+                Console.WriteLine("Libro 303: 'To Kill a Mockingbird' de Harper Lee (Disponible)");
+                Console.WriteLine("Libro 404: 'The Great Gatsby' de F. Scott Fitzgerald (Disponible)");
+                Console.WriteLine("Libro 505: 'Harry Potter' de J.K. Rowling (Disponible)");
+                Console.ReadKey();
+                break;
+            case "2":
+                Console.WriteLine("-- Listar Disponibles --");
+                Console.WriteLine("Libro 101: 'Cien Años de Soledad' de Gabriel García Márquez (Disponible)");
+                Console.WriteLine("Libro 303: 'To Kill a Mockingbird' de Harper Lee (Disponible)");
+                Console.WriteLine("Libro 404: 'The Great Gatsby' de F. Scott Fitzgerald (Disponible)");
+                Console.WriteLine("Libro 505: 'Harry Potter' de J.K. Rowling (Disponible)");
+                Console.ReadKey();
+                break;
+            case "3":
+                Console.WriteLine("-- Listar Prestados --");
+                Console.WriteLine("Libro 202: '1984' de George Orwell (Prestado)");
+                Console.ReadKey();
+                break;
+            case "4":
+                stayinlistbooksMenu = false;
+                break;
+            default:
+                Console.WriteLine("Opción no válida. Presione Enter para intentar de nuevo.");
+                Console.ReadLine();
+                break;
+         }
+        }
+    }
+
+    // Función para mostrar el menú de actualizar libros
+            static void ShowUpdateBookMenu(){
+            bool stayInUpdateMenu = true;
+            while (stayInUpdateMenu)
+                {
+            Console.Clear();
+            Console.WriteLine("--- Actualizar Libro ---");
+            Console.WriteLine("1. Editar título");
+            Console.WriteLine("2. Editar autor");
+            Console.WriteLine("3. Editar año / categoría");
+            Console.WriteLine("4. Regresar al menú de Libros");
+
+            Console.Write("\nSeleccione qué desea editar: ");
+            string option = Console.ReadLine();
+
+            switch (option)
+        {
+            case "1":
+                Console.WriteLine("\nIngrese el nuevo título:");
+                Console.ReadLine(); // Simula la entrada de datos
+                Console.WriteLine("Título actualizado con éxito.");
+                Console.ReadKey();
+                break;
+            case "2":
+                Console.WriteLine("\nIngrese el nuevo autor:");
+                Console.ReadLine();
+                Console.WriteLine("Autor actualizado con éxito.");
+                Console.ReadKey();
+                break;
+            case "3":
+                Console.WriteLine("\nIngrese el nuevo año o categoría:");
+                Console.ReadLine();
+                Console.WriteLine("Datos actualizados con éxito.");
+                Console.ReadKey();
+                break;
+            case "4":
+                stayInUpdateMenu = false; // Nos saca de este bucle y volvemos al nivel anterior
+                break;
+            default:
+                Console.WriteLine("\nOpción no válida. Intente de nuevo.");
+                Console.ReadKey();
+                break;
+        }
+    }
+  }
 }
