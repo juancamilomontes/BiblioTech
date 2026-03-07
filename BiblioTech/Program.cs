@@ -1,2 +1,15 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        ShowMainMenu();
+    }
+
+    static void ShowMainMenu()
+    {
+        Console.WriteLine("=== BIBLIOTECH - MENÚ PRINCIPAL ===");
+        
+    }
+}
