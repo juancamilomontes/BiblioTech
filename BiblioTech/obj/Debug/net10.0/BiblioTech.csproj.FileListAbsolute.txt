@@ -1,0 +1,15 @@
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\bin\Debug\net10.0\BiblioTech.exe
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\bin\Debug\net10.0\BiblioTech.deps.json
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\bin\Debug\net10.0\BiblioTech.runtimeconfig.json
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\bin\Debug\net10.0\BiblioTech.dll
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\bin\Debug\net10.0\BiblioTech.pdb
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\obj\Debug\net10.0\BiblioTech.GeneratedMSBuildEditorConfig.editorconfig
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\obj\Debug\net10.0\BiblioTech.AssemblyInfoInputs.cache
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\obj\Debug\net10.0\BiblioTech.AssemblyInfo.cs
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\obj\Debug\net10.0\BiblioTech.csproj.CoreCompileInputs.cache
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\obj\Debug\net10.0\BiblioTech.sourcelink.json
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\obj\Debug\net10.0\BiblioTech.dll
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\obj\Debug\net10.0\refint\BiblioTech.dll
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\obj\Debug\net10.0\BiblioTech.pdb
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\obj\Debug\net10.0\BiblioTech.genruntimeconfig.cache
+C:\trabajos sena 2026\Clases C#\C# Trabajo 5\BiblioTech\obj\Debug\net10.0\ref\BiblioTech.dll
