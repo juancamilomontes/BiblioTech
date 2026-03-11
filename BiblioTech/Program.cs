@@ -40,8 +40,7 @@ class Program
                     ShowUsersMenu();
                     break;
                 case "3":
-                    Console.WriteLine("Funcion de Prestamos");
-                    Console.ReadKey();
+                    ShowLoansMenu();
                     break;
                 case "4":
                     Console.WriteLine("Funcion de Búsquedas y Reportes");
@@ -371,5 +370,112 @@ class Program
                 break;
         }
     }
-  }    
+  }
+
+        static void ShowLoansMenu()
+{
+    bool stayInLoans = true;
+    while (stayInLoans)
+    {
+        Console.Clear();
+        Console.WriteLine("-- Módulo de Préstamos --");
+        Console.WriteLine("1. Registrar Préstamo");
+        Console.WriteLine("2. Listar Préstamos");
+        Console.WriteLine("3. Ver detalle de préstamo (por ID)");
+        Console.WriteLine("4. Registrar devolución");
+        Console.WriteLine("5. Eliminar préstamo");
+        Console.WriteLine("6. Regresar al menú principal");
+
+        Console.Write("\nSeleccione una opción: ");
+        string option = Console.ReadLine();
+
+        switch (option)
+        {
+            case "1":
+                RegisterLoan();
+                break;
+            case "2":
+                ShowListLoansMenu();
+                break;
+            case "3":
+                ShowLoanDetail();
+                break;
+            case "4":
+                RegisterReturn();
+                break;
+            case "5":
+                DeleteLoan();
+                break;
+            case "6":
+                stayInLoans = false;
+                break;
+            default:
+                Console.WriteLine("Opción no válida.");
+                Console.ReadKey();
+                break;
+        }
+    }
+}
+
+        static void ShowListLoansMenu()
+{
+    bool stayInList = true;
+    while (stayInList)
+    {
+        Console.Clear();
+        Console.WriteLine("-- Listado de Préstamos --");
+        Console.WriteLine("1. Ver Todos");
+        Console.WriteLine("2. Ver Activos");
+        Console.WriteLine("3. Ver Cerrados");
+        Console.WriteLine("4. Regresar al menú de Préstamos");
+
+        string op = Console.ReadLine();
+        if (op == "4") stayInList = false;
+        else {
+            Console.WriteLine("\n[Simulación] Mostrando lista seleccionada...");
+            Console.ReadKey();
+        }
+    }
+}
+
+        static void RegisterLoan()
+{
+    Console.Clear();
+    Console.WriteLine("-- Registrar Préstamo --");
+    Console.WriteLine("Validaciones: Libro debe existir, Usuario debe existir, Libro debe estar disponible.");
+    Console.Write("ID Libro: "); Console.ReadLine();
+    Console.Write("ID Usuario: "); Console.ReadLine();
+    Console.WriteLine("\n[ÉXITO]: Préstamo registrado satisfactoriamente.");
+    Console.ReadKey();
+}
+
+static void ShowLoanDetail()
+{
+    Console.Clear();
+    Console.Write("Ingrese ID del préstamo a consultar: ");
+    string id = Console.ReadLine();
+    Console.WriteLine($"\nDetalles del préstamo {id}: Libro 'Don Quijote', Usuario 'Juan Pérez', Fecha: 10/03/2026.");
+    Console.ReadKey();
+}
+
+static void RegisterReturn()
+{
+    Console.Clear();
+    Console.WriteLine("-- Registrar Devolución --");
+    Console.Write("ID del préstamo: "); Console.ReadLine();
+    Console.WriteLine("\n[MENSAJE]: Préstamo marcado como devuelto + Libro ahora disponible.");
+    Console.ReadKey();
+}
+
+static void DeleteLoan()
+{
+    Console.Clear();
+    Console.WriteLine("-- Eliminar Préstamo --");
+    Console.WriteLine("Reglas sugeridas: No eliminar si está activo, solo si tiene más de 5 años (historial).");
+    Console.Write("ID a eliminar: "); Console.ReadLine();
+    Console.WriteLine("\n[Simulación]: Registro eliminado.");
+    Console.ReadKey();
+}
+
+
 }
