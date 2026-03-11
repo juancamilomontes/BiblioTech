@@ -37,8 +37,7 @@ class Program
                     ShowBooksMenu();
                     break;
                 case "2":
-                    Console.WriteLine("Funcion de Usuarios");
-                    Console.ReadKey();
+                    ShowUsersMenu();
                     break;
                 case "3":
                     Console.WriteLine("Funcion de Prestamos");
@@ -218,11 +217,10 @@ class Program
             Console.Write("\nSeleccione qué desea editar: ");
             string option = Console.ReadLine();
 
-            switch (option)
-        {
+            switch (option){
             case "1":
                 Console.WriteLine("\nIngrese el nuevo título:");
-                Console.ReadLine(); // Simula la entrada de datos
+                Console.ReadLine(); 
                 Console.WriteLine("Título actualizado con éxito.");
                 Console.ReadKey();
                 break;
@@ -239,7 +237,7 @@ class Program
                 Console.ReadKey();
                 break;
             case "4":
-                stayInUpdateMenu = false; // Nos saca de este bucle y volvemos al nivel anterior
+                stayInUpdateMenu = false;
                 break;
             default:
                 Console.WriteLine("\nOpción no válida. Intente de nuevo.");
@@ -248,4 +246,130 @@ class Program
         }
     }
   }
+
+            static void ShowUsersMenu()
+            {   Boolean stayinUsersMenu = true;
+                while (stayinUsersMenu) {
+                Console.Clear();
+                Console.WriteLine("-- Funcion de Usuarios --");
+                Console.WriteLine("1.Registrar Usuario");
+                Console.WriteLine("2.Listar Usuarios");
+                Console.WriteLine("3.Ver detalles por ID/Documento");
+                Console.WriteLine("4.Actualizar Usuario");
+                Console.WriteLine("5.Eliminar Usuario");
+                Console.WriteLine("6.Regresar al menú principal");
+
+                Console.Write("Seleccione una opción: ");
+                string option = Console.ReadLine();
+
+                switch (option)
+                {
+                    case "1":
+                        Console.WriteLine("-- Registrar Usuario --");
+                           Console.WriteLine("Ingrese el nombre del usuario:");
+                            string N = (Console.ReadLine());
+                            Console.WriteLine("Ingrese el documento del usuario:");
+                            string D = (Console.ReadLine());
+                            Console.WriteLine($"El usuario '{N}' con documento '{D}' ha sido registrado en el sistema.");
+                        Console.ReadKey();
+                        break;
+                    case "2":
+                        Console.WriteLine("-- Listar Usuarios --");
+                        Console.WriteLine("Usuario 1: Juan Pérez (Documento: 1234)");
+                        Console.WriteLine("Usuario 2: María García (Documento: 4321)");
+                        Console.WriteLine("Usuario 3: Carlos López (Documento: 5678)");
+                        Console.WriteLine("Usuario 4: Ana Martínez (Documento: 8765)");
+                        Console.ReadKey();
+                        break;
+                    case "3":
+                        Console.WriteLine("-- Ver detalles por ID/Documento --");
+                        Console.WriteLine("IDs Disponibles: 1234, 4321, 5678, 8765");
+                        Console.WriteLine("Ingrese el ID correspondiente:");
+                        string ID = Console.ReadLine();
+                        if (ID == "1234")
+                        {
+                            Console.WriteLine("Detalles del usuario 1234: Juan Pérez (Documento: 1234)");
+                        }
+                        else if (ID == "4321")
+                        {
+                            Console.WriteLine("Detalles del usuario 4321: María García (Documento: 4321)");
+                        }
+                        else if (ID == "5678")
+                        {
+                            Console.WriteLine("Detalles del usuario 5678: Carlos López (Documento: 5678)");
+                        }
+                        else if (ID == "8765")
+                        {
+                            Console.WriteLine("Detalles del usuario 8765: Ana Martínez (Documento: 8765)");
+                        }
+                        else
+                        {
+                            Console.WriteLine("ID no encontrado. Presione una tecla para volver...");
+                        }
+
+                        Console.ReadKey();
+                        break;
+                    case "4":
+                        ShowUpdateUserMenu();
+                        break;
+                    case "5":
+                        Console.WriteLine("-- Eliminar Usuario --");
+                        Console.WriteLine("Validar no permitir si tiene préstamos activos");
+                        Console.ReadKey();
+                        break;
+                    case "6":
+                        stayinUsersMenu = false;
+                        break;
+                    default:
+                        Console.WriteLine("Opción no válida. Presione Enter para intentar de nuevo.");
+                        Console.ReadLine();
+                        break;
+                }
+                }
+
+               
+            }
+         static void ShowUpdateUserMenu(){
+            bool stayInUpdateMenu = true;
+            while (stayInUpdateMenu)
+                {
+            Console.Clear();
+            Console.WriteLine("--- Actualizar Usuario ---");
+            Console.WriteLine("1. Editar Nombre");
+            Console.WriteLine("2. Editar Contacto");
+            Console.WriteLine("3. Activar o Desactivar");
+            Console.WriteLine("4. Regresar al menú de Usuarios");
+
+            Console.Write("\nSeleccione qué desea editar: ");
+            string option = Console.ReadLine();
+
+            switch (option){
+            case "1":
+                Console.WriteLine("\nIngrese el nuevo nombre:");
+                Console.ReadLine(); 
+                Console.WriteLine("Nombre actualizado con éxito.");
+                Console.ReadKey();
+                break;
+            case "2":
+                Console.WriteLine("\nIngrese el nuevo contacto:");
+                Console.ReadLine();
+                Console.WriteLine("Contacto actualizado con éxito.");
+                Console.ReadKey();
+                break;
+            case "3":
+                Console.WriteLine("\nIngrese el nuevo estado (activo/inactivo):");
+                Console.ReadLine();
+                Console.WriteLine("Estado actualizado con éxito.");
+                Console.ReadKey();
+                break;
+            case "4":
+                stayInUpdateMenu = false;
+                break;
+            default:
+                Console.WriteLine("\nOpción no válida. Intente de nuevo.");
+                Console.ReadKey();
+                break;
+        }
+    }
+  }    
 }
