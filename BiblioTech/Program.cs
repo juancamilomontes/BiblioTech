@@ -43,8 +43,7 @@ class Program
                     ShowLoansMenu();
                     break;
                 case "4":
-                    Console.WriteLine("Funcion de Búsquedas y Reportes");
-                    Console.ReadKey();
+                   ShowReportsMenu();
                     break;
                 case "5":
                     Console.WriteLine("Funcion de Guardar/Cargar Datos");
@@ -410,7 +409,7 @@ class Program
                 stayInLoans = false;
                 break;
             default:
-                Console.WriteLine("Opción no válida.");
+                Console.WriteLine("\nOpción no válida. Intente de nuevo.");
                 Console.ReadKey();
                 break;
         }
@@ -432,7 +431,7 @@ class Program
         string op = Console.ReadLine();
         if (op == "4") stayInList = false;
         else {
-            Console.WriteLine("\n[Simulación] Mostrando lista seleccionada...");
+            Console.WriteLine("\nMostrando lista seleccionada...");
             Console.ReadKey();
         }
     }
@@ -445,7 +444,7 @@ class Program
     Console.WriteLine("Validaciones: Libro debe existir, Usuario debe existir, Libro debe estar disponible.");
     Console.Write("ID Libro: "); Console.ReadLine();
     Console.Write("ID Usuario: "); Console.ReadLine();
-    Console.WriteLine("\n[ÉXITO]: Préstamo registrado satisfactoriamente.");
+    Console.WriteLine("\nÉXITO: Préstamo registrado satisfactoriamente.");
     Console.ReadKey();
 }
 
@@ -463,7 +462,7 @@ static void RegisterReturn()
     Console.Clear();
     Console.WriteLine("-- Registrar Devolución --");
     Console.Write("ID del préstamo: "); Console.ReadLine();
-    Console.WriteLine("\n[MENSAJE]: Préstamo marcado como devuelto + Libro ahora disponible.");
+    Console.WriteLine("\nPréstamo marcado como devuelto + Libro ahora disponible.");
     Console.ReadKey();
 }
 
@@ -473,7 +472,78 @@ static void DeleteLoan()
     Console.WriteLine("-- Eliminar Préstamo --");
     Console.WriteLine("Reglas sugeridas: No eliminar si está activo, solo si tiene más de 5 años (historial).");
     Console.Write("ID a eliminar: "); Console.ReadLine();
-    Console.WriteLine("\n[Simulación]: Registro eliminado.");
+    Console.WriteLine("\nRegistro eliminado.");
+    Console.ReadKey();
+}
+
+
+static void ShowReportsMenu()
+{
+    bool stayInReports = true;
+    while (stayInReports)
+    {
+        Console.Clear();
+        Console.WriteLine("-- Módulo 4: Búsquedas y Reportes --");
+        Console.WriteLine("1. Buscar Libro por Título/Autor");
+        Console.WriteLine("2. Reporte de Libros más Prestados");
+        Console.WriteLine("3. Reporte de Usuarios con Multas/Pendientes");
+        Console.WriteLine("4. Inventario Total de la Biblioteca");
+        Console.WriteLine("5. Regresar al menú principal");
+
+        Console.Write("\nSeleccione un reporte: ");
+        string option = Console.ReadLine();
+
+        switch (option)
+        {
+            case "1":
+                SearchBooks();
+                break;
+            case "2":
+                Console.WriteLine("\n-- Ranking de Préstamos --");
+                Console.WriteLine("1. 1984 - 15 préstamos");
+                Console.WriteLine("2. El Quijote - 12 préstamos");
+                Console.ReadKey();
+                break;
+            case "3":
+                Console.WriteLine("\n-- Usuarios con Pendientes --");
+                Console.WriteLine("- Carlos López (ID: 5678) - 1 libro retrasado");
+                Console.WriteLine("- Ana Martínez (ID: 8765) - Sin multas");
+                Console.ReadKey();
+                break;
+            case "4":
+                ShowInventory();
+                break;
+            case "5":
+                stayInReports = false;
+                break;
+            default:
+                Console.WriteLine("Opción no válida, intente de nuevo.");
+                Console.ReadKey();
+                break;
+        }
+    }
+}
+
+static void SearchBooks()
+{
+    Console.Clear();
+    Console.WriteLine("-- Búsqueda de Libros --");
+    Console.Write("Ingrese término de búsqueda: ");
+    string search = Console.ReadLine();
+    Console.WriteLine($"\n[Resultados para '{search}']: ");
+    Console.WriteLine("1. Resultado de busqueda A (Disponible)");
+    Console.WriteLine("2. Resultado de busqueda B (Prestado)");
+    Console.ReadKey();
+}
+
+static void ShowInventory()
+{
+    Console.Clear();
+    Console.WriteLine("-- Inventario General --");
+    Console.WriteLine("Total Libros: 500");
+    Console.WriteLine("En Préstamo: 45");
+    Console.WriteLine("Disponibles: 455");
+    Console.WriteLine("\nGenerando archivo de reporte...");
     Console.ReadKey();
 }
 
