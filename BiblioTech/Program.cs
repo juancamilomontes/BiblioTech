@@ -46,8 +46,7 @@ class Program
                    ShowReportsMenu();
                     break;
                 case "5":
-                    Console.WriteLine("Funcion de Guardar/Cargar Datos");
-                    Console.ReadKey();
+                    ShowDataMenu();
                     break;
                 case "6":
                     next = false;
@@ -544,6 +543,66 @@ static void ShowInventory()
     Console.WriteLine("En Préstamo: 45");
     Console.WriteLine("Disponibles: 455");
     Console.WriteLine("\nGenerando archivo de reporte...");
+    Console.ReadKey();
+}
+
+static void ShowDataMenu()
+{
+    bool stayInDataMenu = true;
+    while (stayInDataMenu)
+    {
+        Console.Clear();
+        Console.WriteLine("-- Módulo 5: Guardar / Cargar datos --");
+        Console.WriteLine("1. Guardar datos");
+        Console.WriteLine("2. Cargar datos");
+        Console.WriteLine("3. Reiniciar datos");
+        Console.WriteLine("4. Regresar al menú principal");
+
+        Console.Write("\nSeleccione una opción: ");
+        string option = Console.ReadLine();
+
+        switch (option)
+        {
+            case "1":
+                Console.WriteLine("\nGuardando información en el sistema...");
+                Console.WriteLine("¡Datos guardados con éxito!");
+                Console.ReadKey();
+                break;
+            case "2":
+                Console.WriteLine("\nCargando datos desde el almacenamiento...");
+                Console.WriteLine("¡Datos cargados con éxito!");
+                Console.ReadKey();
+                break;
+            case "3":
+                ResetData();
+                break;
+            case "4":
+                stayInDataMenu = false;
+                break;
+            default:
+                Console.WriteLine("Opción no válida.");
+                Console.ReadKey();
+                break;
+        }
+    }
+}
+
+static void ResetData()
+{
+    Console.Clear();
+    Console.WriteLine("-- Reiniciar datos --");
+    Console.Write("¿Está seguro de que desea borrar todos los datos? (S/N): ");
+    string confirm = Console.ReadLine().ToUpper();
+
+    if (confirm == "S")
+    {
+        Console.WriteLine("\nBorrando registros...");
+        Console.WriteLine("El sistema ha sido reiniciado a valores de fábrica.");
+    }
+    else
+    {
+        Console.WriteLine("\nOperación cancelada.");
+    }
     Console.ReadKey();
 }
 
