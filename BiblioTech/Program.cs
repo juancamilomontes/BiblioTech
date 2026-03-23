@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BiblioTech.Models;
+using System;
 using System.Reflection.Metadata;
 using System.Threading.Tasks.Dataflow;
 
@@ -167,13 +168,20 @@ class Program
 
         switch (option)
         {   case "1":
-                Console.WriteLine("-- Listar todos los libros --");
-                Console.WriteLine("Libro 101: 'Cien Años de Soledad' de Gabriel García Márquez (Disponible)");
-                Console.WriteLine("Libro 202: '1984' de George Orwell (Prestado)");
-                Console.WriteLine("Libro 303: 'To Kill a Mockingbird' de Harper Lee (Disponible)");
-                Console.WriteLine("Libro 404: 'The Great Gatsby' de F. Scott Fitzgerald (Disponible)");
-                Console.WriteLine("Libro 505: 'Harry Potter' de J.K. Rowling (Disponible)");
-                Console.ReadKey();
+                Console.Clear();
+                Console.WriteLine("-- Listado Completo de Libros --");
+                
+                // Creamos los objetos reales (esto es lo que pide la guía)
+                Libro libro1 = new Libro("101", "Cien Años de Soledad", "Gabriel García Márquez");
+                Libro libro2 = new Libro("202", "1984", "George Orwell");
+                libro2.Disponible = false; // Simulamos uno prestado
+
+                // Mostramos el detalle completo de cada objeto
+                Console.WriteLine(libro1.DetalleCompleto());
+                Console.WriteLine(libro2.DetalleCompleto());
+
+                Console.WriteLine("\nPresione cualquier tecla para volver al menú...");
+                Console.ReadKey(); // ESTA PAUSA ES VITAL
                 break;
             case "2":
                 Console.WriteLine("-- Listar Disponibles --");
@@ -271,12 +279,18 @@ class Program
                         Console.ReadKey();
                         break;
                     case "2":
-                        Console.WriteLine("-- Listar Usuarios --");
-                        Console.WriteLine("Usuario 1: Juan Pérez (Documento: 1234)");
-                        Console.WriteLine("Usuario 2: María García (Documento: 4321)");
-                        Console.WriteLine("Usuario 3: Carlos López (Documento: 5678)");
-                        Console.WriteLine("Usuario 4: Ana Martínez (Documento: 8765)");
-                        Console.ReadKey();
+                       Console.Clear();
+                        Console.WriteLine("-- Listado de Usuarios Registrados --");
+                        Usuario user1 = new Usuario("12345", "Juan Camilo", "juan@correo.com");
+                        Usuario user2 = new Usuario("67890", "Maria Lopez", "maria@correo.com");
+                        
+                        user2.Activo = false;
+
+                        Console.WriteLine(user1.DetalleCompleto());
+                        Console.WriteLine(user2.DetalleCompleto());
+
+                        Console.WriteLine("\nPresione cualquier tecla para regresar...");
+                        Console.ReadKey(); 
                         break;
                     case "3":
                         Console.WriteLine("-- Ver detalles por ID/Documento --");
@@ -450,9 +464,20 @@ class Program
 static void ShowLoanDetail()
 {
     Console.Clear();
-    Console.Write("Ingrese ID del préstamo a consultar: ");
-    string id = Console.ReadLine();
-    Console.WriteLine($"\nDetalles del préstamo {id}: Libro 'Don Quijote', Usuario 'Juan Pérez', Fecha: 10/03/2026.");
+    Console.WriteLine("-- Detalle de Préstamos Activos --");
+
+    Libro libroPrestamo = new Libro("303", "El Quijote", "Miguel de Cervantes");
+    Usuario usuarioPrestamo = new Usuario("001", "Camilo", "camilo@mail.com");
+
+    DateTime fechaInicio = DateTime.Now.AddDays(-10);
+    DateTime fechaFin = DateTime.Now.AddDays(-2);
+
+    Prestamo prestamoPrueba = new Prestamo(1, libroPrestamo, usuarioPrestamo, fechaInicio, fechaFin);
+
+    Console.WriteLine(prestamoPrueba.DetalleCompleto());
+    Console.WriteLine($"Estado actual: {prestamoPrueba.Estado}");
+    Console.WriteLine($"Días transcurridos: {prestamoPrueba.DiasTranscurridos()}");
+    Console.WriteLine("\nPresione cualquier tecla para regresar...");
     Console.ReadKey();
 }
 
