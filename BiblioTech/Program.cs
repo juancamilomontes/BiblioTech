@@ -170,18 +170,17 @@ class Program
         {   case "1":
                 Console.Clear();
                 Console.WriteLine("-- Listado Completo de Libros --");
-                
-                // Creamos los objetos reales (esto es lo que pide la guía)
+
                 Libro libro1 = new Libro("101", "Cien Años de Soledad", "Gabriel García Márquez");
                 Libro libro2 = new Libro("202", "1984", "George Orwell");
-                libro2.Disponible = false; // Simulamos uno prestado
+                libro2.Disponible = false;
 
-                // Mostramos el detalle completo de cada objeto
+                
                 Console.WriteLine(libro1.DetalleCompleto());
                 Console.WriteLine(libro2.DetalleCompleto());
 
                 Console.WriteLine("\nPresione cualquier tecla para volver al menú...");
-                Console.ReadKey(); // ESTA PAUSA ES VITAL
+                Console.ReadKey(); 
                 break;
             case "2":
                 Console.WriteLine("-- Listar Disponibles --");
