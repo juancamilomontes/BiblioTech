@@ -6,13 +6,12 @@ namespace BiblioTech.Services
     {
         private List<Prestamo> prestamos = new List<Prestamo>();
 
-        // Agregar
         public void AgregarPrestamo(Prestamo prestamo)
         {
             prestamos.Add(prestamo);
         }
 
-        // Eliminar por ID
+        
         public void EliminarPrestamo(int id)
         {
             Prestamo prestamo = prestamos.Find(p => p.Id == id);
@@ -20,43 +19,42 @@ namespace BiblioTech.Services
                 prestamos.Remove(prestamo);
         }
 
-        // Obtener todos
+        
         public List<Prestamo> ObtenerTodos()
         {
             return prestamos;
         }
 
-        // Obtener activos
+        
         public List<Prestamo> ObtenerActivos()
         {
             return prestamos.FindAll(p => p.Estado == EstadoPrestamo.Activo);
         }
 
-        // Obtener devueltos
+        
         public List<Prestamo> ObtenerDevueltos()
         {
             return prestamos.FindAll(p => p.Estado == EstadoPrestamo.Devuelto);
         }
 
-        // Obtener vencidos
+        
         public List<Prestamo> ObtenerVencidos()
         {
             return prestamos.FindAll(p => p.EstaVencido());
         }
 
-        // Buscar por ID
+        
         public Prestamo BuscarPorId(int id)
         {
             return prestamos.Find(p => p.Id == id);
         }
 
-        // Buscar por estado
         public List<Prestamo> BuscarPorEstado(EstadoPrestamo estado)
         {
             return prestamos.FindAll(p => p.Estado == estado);
         }
 
-        // Registrar devolución
+        
         public void RegistrarDevolucion(int id)
         {
             Prestamo prestamo = prestamos.Find(p => p.Id == id);
@@ -68,7 +66,7 @@ namespace BiblioTech.Services
             }
         }
 
-        // Actualizar estados vencidos
+       
         public void ActualizarEstadosVencidos()
         {
             foreach (Prestamo p in prestamos)
@@ -78,7 +76,7 @@ namespace BiblioTech.Services
             }
         }
 
-        // Ordenar por fecha límite
+      
         public List<Prestamo> OrdenarPorFechaFin()
         {
             List<Prestamo> ordenados = new List<Prestamo>(prestamos);

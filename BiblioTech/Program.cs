@@ -1,15 +1,38 @@
 ﻿using BiblioTech.Models;
+using BiblioTech.Services;
 using System;
 using System.Reflection.Metadata;
 using System.Threading.Tasks.Dataflow;
 
 class Program
 {
-    static void Main(string[] args)
-    {
-        ShowMainMenu();
-    }
 
+    static LibroService libroService = new LibroService();
+    static UsuarioService usuarioService = new UsuarioService();
+    static PrestamoService prestamoService = new PrestamoService();
+
+    static void Main(string[] args)
+{
+    // Datos de prueba - Libros
+    libroService.AgregarLibro(new Libro("101", "Cien Años de Soledad", "Gabriel García Márquez"));
+    libroService.AgregarLibro(new Libro("202", "1984", "George Orwell"));
+    libroService.AgregarLibro(new Libro("303", "El Quijote", "Miguel de Cervantes"));
+    libroService.AgregarLibro(new Libro("404", "The Great Gatsby", "F. Scott Fitzgerald"));
+
+    // Datos de prueba - Usuarios
+    usuarioService.AgregarUsuario(new Usuario("001", "Camilo Montes", "camilo@mail.com"));
+    usuarioService.AgregarUsuario(new Usuario("002", "Ana Martínez", "ana@mail.com"));
+    usuarioService.AgregarUsuario(new Usuario("003", "Carlos López", "carlos@mail.com"));
+
+    // Datos de prueba - Préstamo
+    Libro l1 = libroService.BuscarPorIsbn("202");
+    Usuario u1 = usuarioService.BuscarPorDocumento("001");
+    l1.Disponible = false;
+    prestamoService.AgregarPrestamo(new Prestamo(1, l1, u1, 
+        DateTime.Now.AddDays(-10), DateTime.Now.AddDays(-2)));
+
+    ShowMainMenu();
+}
 
     // Función para mostrar el menú principal
     static void ShowMainMenu()
@@ -85,11 +108,14 @@ class Program
             case "1":
                 Console.Clear();
                 Console.WriteLine("--- Registrar Nuevo Libro ---");
+                Console.Write("ISBN: ");
+                string isbn = Console.ReadLine();
                 Console.Write("Título: ");
-                string t = Console.ReadLine();
+                string titulo = Console.ReadLine();
                 Console.Write("Autor: ");
-                string a = Console.ReadLine();
-                Console.WriteLine($"\nEl libro '{t}' de {a} ha sido guardado en el sistema.");
+                string autor = Console.ReadLine();
+                libroService.AgregarLibro(new Libro(isbn, titulo, autor));
+                Console.WriteLine($"\nLibro '{titulo}' agregado con éxito.");
                 Console.WriteLine("Presione una tecla para volver...");
                 Console.ReadKey();
                 break;
@@ -131,8 +157,24 @@ class Program
                 ShowUpdateBookMenu();
                 break;
             case "5":
-                Console.WriteLine("-- Función de Eliminar Libro --");
-                Console.WriteLine("Validar no permitir si está prestado");
+                Console.Clear();
+                Console.WriteLine("-- Eliminar Libro --");
+                Console.Write("Ingrese el ISBN del libro a eliminar: ");
+                string isbnEliminar = Console.ReadLine();
+                Libro libroEliminar = libroService.BuscarPorIsbn(isbnEliminar);
+                if (libroEliminar == null)
+                {
+                    Console.WriteLine("Libro no encontrado.");
+                }
+                else if (!libroEliminar.Disponible)
+                {
+                    Console.WriteLine("No se puede eliminar un libro prestado.");
+                }
+                else
+                {
+                    libroService.EliminarLibro(isbnEliminar);
+                    Console.WriteLine("Libro eliminado con éxito.");
+                }
                 Console.ReadKey();
                 break;
             case "6":
@@ -170,29 +212,23 @@ class Program
         {   case "1":
                 Console.Clear();
                 Console.WriteLine("-- Listado Completo de Libros --");
-
-                Libro libro1 = new Libro("101", "Cien Años de Soledad", "Gabriel García Márquez");
-                Libro libro2 = new Libro("202", "1984", "George Orwell");
-                libro2.Disponible = false;
-
-                
-                Console.WriteLine(libro1.DetalleCompleto());
-                Console.WriteLine(libro2.DetalleCompleto());
-
+                foreach (Libro l in libroService.ObtenerTodos())
+                    Console.WriteLine(l.DetalleCompleto());
                 Console.WriteLine("\nPresione cualquier tecla para volver al menú...");
-                Console.ReadKey(); 
+                Console.ReadKey();
                 break;
             case "2":
-                Console.WriteLine("-- Listar Disponibles --");
-                Console.WriteLine("Libro 101: 'Cien Años de Soledad' de Gabriel García Márquez (Disponible)");
-                Console.WriteLine("Libro 303: 'To Kill a Mockingbird' de Harper Lee (Disponible)");
-                Console.WriteLine("Libro 404: 'The Great Gatsby' de F. Scott Fitzgerald (Disponible)");
-                Console.WriteLine("Libro 505: 'Harry Potter' de J.K. Rowling (Disponible)");
+                Console.Clear();
+                Console.WriteLine("-- Libros Disponibles --");
+                foreach (Libro l in libroService.ObtenerDisponibles())
+                    Console.WriteLine(l.DetalleCompleto());
                 Console.ReadKey();
                 break;
             case "3":
-                Console.WriteLine("-- Listar Prestados --");
-                Console.WriteLine("Libro 202: '1984' de George Orwell (Prestado)");
+                Console.Clear();
+                Console.WriteLine("-- Libros Prestados --");
+                foreach (Libro l in libroService.ObtenerPrestados())
+                    Console.WriteLine(l.DetalleCompleto());
                 Console.ReadKey();
                 break;
             case "4":
@@ -453,10 +489,40 @@ class Program
 {
     Console.Clear();
     Console.WriteLine("-- Registrar Préstamo --");
-    Console.WriteLine("Validaciones: Libro debe existir, Usuario debe existir, Libro debe estar disponible.");
-    Console.Write("ID Libro: "); Console.ReadLine();
-    Console.Write("ID Usuario: "); Console.ReadLine();
-    Console.WriteLine("\nÉXITO: Préstamo registrado satisfactoriamente.");
+    Console.Write("ISBN del Libro: ");
+    string isbnPrestamo = Console.ReadLine();
+    Libro libroPrestamo = libroService.BuscarPorIsbn(isbnPrestamo);
+
+    if (libroPrestamo == null)
+    {
+        Console.WriteLine("Libro no encontrado.");
+        Console.ReadKey();
+        return;
+    }
+    if (!libroPrestamo.Disponible)
+    {
+        Console.WriteLine("El libro no está disponible.");
+        Console.ReadKey();
+        return;
+    }
+
+    Console.Write("Documento del Usuario: ");
+    string docUsuario = Console.ReadLine();
+    Usuario usuarioPrestamo = usuarioService.BuscarPorDocumento(docUsuario);
+
+    if (usuarioPrestamo == null)
+    {
+        Console.WriteLine("Usuario no encontrado.");
+        Console.ReadKey();
+        return;
+    }
+
+    int nuevoId = prestamoService.TotalPrestamos() + 1;
+    libroPrestamo.Disponible = false;
+    prestamoService.AgregarPrestamo(new Prestamo(nuevoId, libroPrestamo, 
+        usuarioPrestamo, DateTime.Now, DateTime.Now.AddDays(7)));
+
+    Console.WriteLine($"\nÉXITO: Préstamo #{nuevoId} registrado.");
     Console.ReadKey();
 }
 
@@ -484,8 +550,24 @@ static void RegisterReturn()
 {
     Console.Clear();
     Console.WriteLine("-- Registrar Devolución --");
-    Console.Write("ID del préstamo: "); Console.ReadLine();
-    Console.WriteLine("\nPréstamo marcado como devuelto + Libro ahora disponible.");
+    Console.Write("ID del préstamo: ");
+    int idDevolucion = int.Parse(Console.ReadLine());
+    Prestamo prestamoDev = prestamoService.BuscarPorId(idDevolucion);
+
+    if (prestamoDev == null)
+    {
+        Console.WriteLine("Préstamo no encontrado.");
+    }
+    else if (prestamoDev.Estado == EstadoPrestamo.Devuelto)
+    {
+        Console.WriteLine("Este préstamo ya fue devuelto.");
+    }
+    else
+    {
+        prestamoService.RegistrarDevolucion(idDevolucion);
+        Console.WriteLine($"\nÉXITO: Préstamo #{idDevolucion} marcado como devuelto.");
+        Console.WriteLine($"Libro '{prestamoDev.Libro.Titulo}' ahora disponible.");
+    }
     Console.ReadKey();
 }
 
@@ -511,7 +593,8 @@ static void ShowReportsMenu()
         Console.WriteLine("2. Reporte de Libros más Prestados");
         Console.WriteLine("3. Reporte de Usuarios con Multas/Pendientes");
         Console.WriteLine("4. Inventario Total de la Biblioteca");
-        Console.WriteLine("5. Regresar al menú principal");
+        Console.WriteLine("5. Comparación Array vs List");
+        Console.WriteLine("6. Regresar al menú principal");
 
         Console.Write("\nSeleccione un reporte: ");
         string option = Console.ReadLine();
@@ -537,6 +620,9 @@ static void ShowReportsMenu()
                 ShowInventory();
                 break;
             case "5":
+                ArrayVsListDemo.MostrarComparacion();
+                break;
+            case "6":
                 stayInReports = false;
                 break;
             default:
@@ -551,11 +637,34 @@ static void SearchBooks()
 {
     Console.Clear();
     Console.WriteLine("-- Búsqueda de Libros --");
+    Console.WriteLine("1. Buscar por ISBN");
+    Console.WriteLine("2. Buscar por Título");
+    Console.WriteLine("3. Buscar por Autor");
+    Console.Write("\nSeleccione: ");
+    string op = Console.ReadLine();
+
     Console.Write("Ingrese término de búsqueda: ");
-    string search = Console.ReadLine();
-    Console.WriteLine($"\n[Resultados para '{search}']: ");
-    Console.WriteLine("1. Resultado de busqueda A (Disponible)");
-    Console.WriteLine("2. Resultado de busqueda B (Prestado)");
+    string termino = Console.ReadLine();
+
+    Console.WriteLine($"\n[Resultados para '{termino}']:");
+
+    if (op == "1")
+    {
+        Libro l = libroService.BuscarPorIsbn(termino);
+        if (l != null) Console.WriteLine(l.DetalleCompleto());
+        else Console.WriteLine("No encontrado.");
+    }
+    else if (op == "2")
+    {
+        Libro l = libroService.BuscarPorTitulo(termino);
+        if (l != null) Console.WriteLine(l.DetalleCompleto());
+        else Console.WriteLine("No encontrado.");
+    }
+    else if (op == "3")
+    {
+        foreach (Libro l in libroService.BuscarPorAutor(termino))
+            Console.WriteLine(l.DetalleCompleto());
+    }
     Console.ReadKey();
 }
 
@@ -563,10 +672,17 @@ static void ShowInventory()
 {
     Console.Clear();
     Console.WriteLine("-- Inventario General --");
-    Console.WriteLine("Total Libros: 500");
-    Console.WriteLine("En Préstamo: 45");
-    Console.WriteLine("Disponibles: 455");
-    Console.WriteLine("\nGenerando archivo de reporte...");
+    Console.WriteLine($"Total Libros: {libroService.TotalLibros()}");
+    Console.WriteLine($"Disponibles: {libroService.TotalDisponibles()}");
+    Console.WriteLine($"En Préstamo: {libroService.TotalPrestados()}");
+    Console.WriteLine($"\nTotal Usuarios: {usuarioService.TotalUsuarios()}");
+    Console.WriteLine($"Activos: {usuarioService.TotalActivos()}");
+    Console.WriteLine($"Inactivos: {usuarioService.TotalInactivos()}");
+    Console.WriteLine($"\nTotal Préstamos: {prestamoService.TotalPrestamos()}");
+    Console.WriteLine($"Activos: {prestamoService.TotalActivos()}");
+    Console.WriteLine($"Vencidos: {prestamoService.TotalVencidos()}");
+    Console.WriteLine($"Devueltos: {prestamoService.TotalDevueltos()}");
+    Console.WriteLine($"Promedio días préstamo: {prestamoService.PromedioDiasPrestamo():F1}");
     Console.ReadKey();
 }
 
