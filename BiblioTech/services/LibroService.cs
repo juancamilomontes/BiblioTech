@@ -77,5 +77,12 @@ namespace BiblioTech.Services
             ordenados.Sort((a, b) => string.Compare(a.Titulo, b.Titulo));
             return ordenados;
         }
+
+        public int TotalLibros() => libros.Count;
+
+        public int TotalDisponibles() => libros.FindAll(l => l.Disponible).Count;
+
+        public int TotalPrestados() => libros.FindAll(l => !l.Disponible).Count;
+
     }
 }

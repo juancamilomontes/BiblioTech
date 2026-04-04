@@ -85,5 +85,22 @@ namespace BiblioTech.Services
             ordenados.Sort((a, b) => DateTime.Compare(a.FechaFin, b.FechaFin));
             return ordenados;
         }
+
+        public int TotalPrestamos() => prestamos.Count;
+
+        public int TotalActivos() => prestamos.FindAll(p => p.Estado == EstadoPrestamo.Activo).Count;
+
+        public int TotalVencidos() => prestamos.FindAll(p => p.EstaVencido()).Count;
+
+        public int TotalDevueltos() => prestamos.FindAll(p => p.Estado == EstadoPrestamo.Devuelto).Count;
+
+        public double PromedioDiasPrestamo()
+        {
+            if (prestamos.Count == 0) return 0;
+            double total = 0;
+            foreach (Prestamo p in prestamos)
+                total += p.DiasTranscurridos();
+            return total / prestamos.Count;
+        }
     }
 }

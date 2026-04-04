@@ -70,5 +70,13 @@ namespace BiblioTech.Services
             ordenados.Sort((a, b) => string.Compare(a.Nombre, b.Nombre));
             return ordenados;
         }
+
+        public int TotalUsuarios() => usuarios.Count;
+
+        public int TotalActivos() => usuarios.FindAll(u => u.Activo).Count;
+
+        public int TotalInactivos() => usuarios.FindAll(u => !u.Activo).Count;
+
+
     }
 }
